@@ -11,14 +11,12 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => Products()),
-      ],
+    return ChangeNotifierProvider(
+      create: (context) => Products(),
       child: MaterialApp(
         title: 'MyShop',
         theme: ThemeData(
-          primarySwatch: Colors.purple,
+          primarySwatch: Colors.pink,
           accentColor: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
