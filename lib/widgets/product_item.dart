@@ -21,11 +21,11 @@ class ProductItem extends StatelessWidget {
           },
           child: Image.network(
             product.imageUrl,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         footer: GridTileBar(
-          backgroundColor: Colors.black87,
+          backgroundColor: Colors.white,
           leading: Consumer<Product>(
             builder: (BuildContext context, product, Widget child) {
               return IconButton(
@@ -42,6 +42,7 @@ class ProductItem extends StatelessWidget {
           title: Text(
             product.title,
             textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyText1,
           ),
           trailing: IconButton(
             icon: Icon(
