@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/constants/constants.dart';
 
 class CartItem extends StatelessWidget {
-  //final String id;
   final String title;
   final String imgUrl;
   final int quantity;
   final double price;
   final Function changeQuantity;
   CartItem({
-    //@required this.id,
     @required this.title,
     @required this.imgUrl,
     @required this.quantity,
