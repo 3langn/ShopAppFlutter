@@ -8,6 +8,7 @@ class CartScreen extends StatelessWidget {
   static const routeName = 'cart_screen';
   @override
   Widget build(BuildContext context) {
+    print('CartScreen build');
     final cart = Provider.of<Cart>(context);
     final appbar = AppBar(
       leading: IconButton(
@@ -39,6 +40,7 @@ class CartScreen extends StatelessWidget {
               child: ListView.builder(
                 itemBuilder: (ctx, index) {
                   return CartItem(
+                    id: cart.items.values.toList()[index].id,
                     title: cart.items.values.toList()[index].title,
                     imgUrl: cart.items.values.toList()[index].imgUrl,
                     quantity: cart.items.values.toList()[index].quantity,
@@ -58,12 +60,9 @@ class CartScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Icon(
-                      Icons.check_box_outline_blank,
-                      size: 30,
-                    ),
+                  Checkbox(
+                    value: false,
+                    onChanged: (value) {},
                   ),
                   Text('All'),
                   Spacer(),
@@ -73,17 +72,19 @@ class CartScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
                               'Total Price:',
                               style: TextStyle(fontSize: 18),
                             ),
-                            Text(
-                              ' ${cart.totalPrice}đ',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Theme.of(context).accentColor,
-                                fontWeight: FontWeight.bold,
+                            FittedBox(
+                              child: Text(
+                                ' ${cart.totalPrice}đ',
+                                style: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             )
                           ],
@@ -100,7 +101,7 @@ class CartScreen extends StatelessWidget {
                   InkWell(
                     child: Container(
                       alignment: Alignment.center,
-                      width: 150,
+                      width: MediaQuery.of(context).size.width * 1 / 3,
                       height: double.infinity,
                       color: Theme.of(context).accentColor,
                       child: Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CartItem {
   String id;
@@ -25,17 +26,43 @@ class Cart with ChangeNotifier {
     return _items.length;
   }
 
-  void changeQuantity(String productId, int btn) {
-    _items.update(
-      productId,
-      (existingCartItem) => CartItem(
+  void changeQuantity(String productId, int btn, BuildContext context) {
+    _items.update(productId, (existingCartItem) {
+      int quantity = existingCartItem.quantity;
+      if (btn == 0) {
+        if (quantity == 1) {
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              content: Text(
+                'Do you want remove this item ?',
+                style: TextStyle(color: Colors.black),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    _items.remove(productId);
+                    notifyListeners();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Remove'),
+                )
+              ],
+            ),
+          );
+        } else
+          quantity--;
+      } else if (btn == 1) {
+        quantity++;
+      }
+      return CartItem(
         id: existingCartItem.id,
         title: existingCartItem.title,
         imgUrl: existingCartItem.imgUrl,
         price: existingCartItem.price,
-        quantity: existingCartItem.quantity + 1,
-      ),
-    );
+        quantity: quantity,
+      );
+    });
     notifyListeners();
   }
 
@@ -64,7 +91,7 @@ class Cart with ChangeNotifier {
         productId,
         () => CartItem(
           title: title,
-          id: DateTime.now().toString(),
+          id: productId,
           imgUrl: imgUrl,
           price: price,
           quantity: 1,

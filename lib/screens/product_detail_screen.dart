@@ -15,7 +15,19 @@ class ProductDetailScreen extends StatelessWidget {
     ).findById(productId);
     return Scaffold(
       appBar: AppBar(
-        title: Text(loadedProduct.title),
+        leading: IconButton(
+          icon: Icon(
+            Icons.navigate_before_outlined,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Text(
+          loadedProduct.title,
+          style: TextStyle(color: Colors.black),
+        ),
       ),
     );
   }

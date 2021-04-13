@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants/constants.dart';
 
+import 'container_border.dart';
+
 class CartItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imgUrl;
   final int quantity;
   final double price;
   final Function changeQuantity;
   CartItem({
+    @required this.id,
     @required this.title,
     @required this.imgUrl,
     @required this.quantity,
@@ -18,20 +22,24 @@ class CartItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
-      child: Column(
-        children: [
-          Row(
+      alignment: Alignment.center,
+      height: 100,
+      width: 100,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return Row(
             children: [
               Icon(
                 Icons.check_box_outline_blank_sharp,
               ),
               Container(
-                height: 100,
-                width: 100,
+                height: constraints.maxHeight,
+                width: constraints.maxHeight,
                 child: Image.network(imgUrl),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(title),
                   Row(
@@ -54,59 +62,55 @@ class CartItem extends StatelessWidget {
               ),
               Spacer(),
               ContainerBorder(
-                height: 40,
-                width: 40,
+                height: constraints.maxWidth * 1 / 15,
+                width: constraints.maxWidth * 1 / 15,
                 child: IconButton(
-                  icon: Icon(Icons.remove),
-                  onPressed: () {},
-                ),
+                    padding: EdgeInsets.zero,
+                    icon: Icon(
+                      Icons.remove,
+                      size: constraints.maxWidth * 1 / 20,
+                    ),
+                    onPressed: () {
+                      changeQuantity(id, 0, context);
+                    }),
               ),
               Container(
                 alignment: Alignment.center,
-                height: 40,
-                width: 70,
+                height: constraints.maxWidth * 1 / 15,
+                width: constraints.maxWidth * 1 / 10,
                 decoration: BoxDecoration(
                   border: Border.symmetric(
-                    horizontal: BorderSide(),
+                    horizontal: BorderSide(
+                      color: Colors.grey,
+                      width: 0.5,
+                    ),
                   ),
                 ),
                 child: Text(
                   quantity.toString(),
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: constraints.maxWidth * 1 / 20,
                   ),
                 ),
               ),
               ContainerBorder(
-                width: 40,
-                height: 40,
+                width: constraints.maxWidth * 1 / 15,
+                height: constraints.maxWidth * 1 / 15,
                 child: IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {},
+                  padding: EdgeInsets.zero,
+                  icon: Icon(
+                    Icons.add,
+                    size: constraints.maxWidth * 1 / 20,
+                  ),
+                  onPressed: () {
+                    changeQuantity(id, 1, context);
+                  },
                 ),
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
-    );
-  }
-}
-
-class ContainerBorder extends StatelessWidget {
-  final Widget child;
-  final double height;
-  final double width;
-  ContainerBorder({this.width, this.child, this.height});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      decoration: BoxDecoration(
-        border: Border.all(),
-      ),
-      child: child,
     );
   }
 }
