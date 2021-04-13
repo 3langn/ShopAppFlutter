@@ -3,11 +3,13 @@ import 'package:flutter/cupertino.dart';
 class CartItem {
   String id;
   String title;
+  String imgUrl;
   double price;
   int quantity;
   CartItem({
     @required this.title,
     @required this.id,
+    @required this.imgUrl,
     @required this.price,
     @required this.quantity,
   });
@@ -23,13 +25,36 @@ class Cart with ChangeNotifier {
     return _items.length;
   }
 
-  void addItem(String productId, String title, double price) {
+  void changeQuantity(String productId, int btn) {
+    _items.update(
+      productId,
+      (existingCartItem) => CartItem(
+        id: existingCartItem.id,
+        title: existingCartItem.title,
+        imgUrl: existingCartItem.imgUrl,
+        price: existingCartItem.price,
+        quantity: existingCartItem.quantity + 1,
+      ),
+    );
+    notifyListeners();
+  }
+
+  double get totalPrice {
+    double _totalPrice = 0;
+    _items.forEach((key, cart) {
+      _totalPrice += cart.price * cart.quantity;
+    });
+    return _totalPrice;
+  }
+
+  void addItem(String productId, String title, String imgUrl, double price) {
     if (_items.containsKey(productId)) {
       _items.update(
         productId,
         (existingCartItem) => CartItem(
-          title: existingCartItem.title,
           id: existingCartItem.id,
+          title: existingCartItem.title,
+          imgUrl: existingCartItem.imgUrl,
           price: existingCartItem.price,
           quantity: existingCartItem.quantity + 1,
         ),
@@ -38,8 +63,9 @@ class Cart with ChangeNotifier {
       _items.putIfAbsent(
         productId,
         () => CartItem(
-          title: DateTime.now().toString(),
-          id: productId,
+          title: title,
+          id: DateTime.now().toString(),
+          imgUrl: imgUrl,
           price: price,
           quantity: 1,
         ),

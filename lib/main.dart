@@ -4,6 +4,7 @@ import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/screens/cart_screen.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
+import 'package:shop_app/screens/products_overview_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,9 +26,17 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme.of(context).copyWith(color: Colors.white),
           accentColor: Colors.redAccent,
           fontFamily: 'Lato',
-          canvasColor: Colors.grey,
+          backgroundColor: Colors.white,
+          textTheme: TextTheme(
+              headline6: TextStyle(
+                fontSize: 25,
+              ),
+              subtitle1: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              )),
         ),
-        home: CartScreen(),
+        home: ProductsOverviewScreen(),
         routes: {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
