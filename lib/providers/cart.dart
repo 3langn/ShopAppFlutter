@@ -8,11 +8,11 @@ class CartItem {
   double price;
   int quantity;
   CartItem({
-    @required this.title,
-    @required this.id,
-    @required this.imgUrl,
-    @required this.price,
-    @required this.quantity,
+    required this.title,
+    required this.id,
+    required this.imgUrl,
+    required this.price,
+    required this.quantity,
   });
 }
 
@@ -41,11 +41,22 @@ class Cart with ChangeNotifier {
               actions: [
                 TextButton(
                   onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
                     _items.remove(productId);
                     notifyListeners();
                     Navigator.of(context).pop();
                   },
-                  child: Text('Remove'),
+                  child: Text(
+                    'Remove',
+                    style: TextStyle(
+                      color: Theme.of(context).errorColor,
+                    ),
+                  ),
                 )
               ],
             ),
@@ -63,6 +74,11 @@ class Cart with ChangeNotifier {
         quantity: quantity,
       );
     });
+    notifyListeners();
+  }
+
+  void clear() {
+    _items = {};
     notifyListeners();
   }
 

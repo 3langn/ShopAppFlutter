@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ContainerBorder extends StatelessWidget {
-  final Widget child;
-  final double height;
-  final double width;
+  final Widget? child;
+  final double? height;
+  final double? width;
   ContainerBorder({this.width, this.child, this.height});
   @override
   Widget build(BuildContext context) {

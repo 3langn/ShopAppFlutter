@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/constants/constants.dart';
 
 import 'container_border.dart';
 
@@ -11,12 +10,12 @@ class CartItem extends StatelessWidget {
   final double price;
   final Function changeQuantity;
   CartItem({
-    @required this.id,
-    @required this.title,
-    @required this.imgUrl,
-    @required this.quantity,
-    @required this.price,
-    @required this.changeQuantity,
+    required this.id,
+    required this.title,
+    required this.imgUrl,
+    required this.quantity,
+    required this.price,
+    required this.changeQuantity,
   });
   @override
   Widget build(BuildContext context) {
@@ -36,29 +35,6 @@ class CartItem extends StatelessWidget {
                 height: constraints.maxHeight,
                 width: constraints.maxHeight,
                 child: Image.network(imgUrl),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(title),
-                  Row(
-                    children: [
-                      Text(
-                        'đ${price * 1.2}',
-                        style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        'đ$price',
-                        style: kPriceTextStyle,
-                      ),
-                    ],
-                  ),
-                ],
               ),
               Spacer(),
               ContainerBorder(
