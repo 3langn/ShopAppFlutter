@@ -29,6 +29,21 @@ class ProductDetailScreen extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
       ),
+      body: Column(
+        children: [
+          Container(
+            height: 300,
+            width: double.infinity,
+            child: Image.network(loadedProduct.imageUrl),
+          ),
+          Text(
+            loadedProduct.title + loadedProduct.description,
+            style: Theme.of(context).textTheme.headline6,
+            textAlign: TextAlign.center,
+          ),
+          Text(loadedProduct.price.toString()),
+        ],
+      ),
     );
   }
 }

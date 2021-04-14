@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart' show Cart;
+import 'package:shop_app/widgets/buy_bar.dart';
 import 'package:shop_app/widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
@@ -66,44 +67,20 @@ class CartScreen extends StatelessWidget {
                   ),
                   Text('All'),
                   Spacer(),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Total Price:',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            FittedBox(
-                              child: Text(
-                                ' ${cart.totalPrice}đ',
-                                style: TextStyle(
-                                  color: Theme.of(context).accentColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Text(
-                          'Receive 0đ',
-                          style: TextStyle(
-                            color: Colors.amber,
-                          ),
-                        )
-                      ],
+                  BuyBar(cart: cart),
+                  TextButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                          return Theme.of(context).accentColor;
+                        },
+                      ),
                     ),
-                  ),
-                  InkWell(
                     child: Container(
                       alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width * 1 / 3,
                       height: double.infinity,
-                      color: Theme.of(context).accentColor,
+                      width: MediaQuery.of(context).size.width * 1 / 3,
                       child: Text(
                         'Buy (0)',
                         style: TextStyle(
@@ -113,7 +90,6 @@ class CartScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onTap: () {},
                   ),
                 ],
               ),
