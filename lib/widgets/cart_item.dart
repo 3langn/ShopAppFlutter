@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/widgets/item_detail.dart';
 
 import 'container_border.dart';
 
@@ -28,13 +29,18 @@ class CartItem extends StatelessWidget {
         builder: (BuildContext context, BoxConstraints constraints) {
           return Row(
             children: [
-              Icon(
-                Icons.check_box_outline_blank_sharp,
+              Checkbox(
+                value: false,
+                onChanged: (value) {},
               ),
               Container(
                 height: constraints.maxHeight,
                 width: constraints.maxHeight,
                 child: Image.network(imgUrl),
+              ),
+              ItemDetail(
+                title: title,
+                price: price,
               ),
               Spacer(),
               ContainerBorder(

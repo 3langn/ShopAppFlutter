@@ -2,30 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart' show Cart;
-import 'package:shop_app/widgets/buy_bar.dart';
+import 'package:shop_app/widgets/appbar_navigate_before.dart';
 import 'package:shop_app/widgets/cart_item.dart';
+import 'package:shop_app/widgets/pay_detail.dart';
+
+const double kToolbarHeight = 56.0;
 
 class CartScreen extends StatelessWidget {
   static const routeName = 'cart_screen';
   @override
   Widget build(BuildContext context) {
-    print('CartScreen build');
     final cart = Provider.of<Cart>(context);
-    final appbar = AppBar(
-      leading: IconButton(
-        icon: Icon(
-          Icons.navigate_before,
-          color: Colors.black,
-        ),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-      title: Text(
-        'Cart',
-        style: Theme.of(context).textTheme.headline6,
-      ),
-    );
+    final appbar = AppBarPop(title: 'Cart');
     return Scaffold(
       appBar: appbar,
       body: SafeArea(
@@ -54,49 +42,61 @@ class CartScreen extends StatelessWidget {
             ),
             Divider(
               height: 0.5,
-              color: Colors.grey,
+              color: Colors.grey[300],
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.08,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Checkbox(
-                    value: false,
-                    onChanged: (value) {},
-                  ),
-                  Text('All'),
-                  Spacer(),
-                  BuyBar(cart: cart),
-                  TextButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                          return Theme.of(context).accentColor;
-                        },
-                      ),
-                    ),
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: double.infinity,
-                      width: MediaQuery.of(context).size.width * 1 / 3,
-                      child: Text(
-                        'Buy (0)',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                  buildCheckBoxAll(),
+                  PayDetail(cart: cart),
+                  buildTextButtonBuy(context),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  TextButton buildTextButtonBuy(BuildContext context) {
+    return TextButton(
+      onPressed: () {},
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            return Theme.of(context).accentColor;
+          },
+        ),
+      ),
+      child: Container(
+        alignment: Alignment.center,
+        height: double.infinity,
+        width: MediaQuery.of(context).size.width * 1 / 3,
+        child: Text(
+          'Buy (0)',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Row buildCheckBoxAll() {
+    return Row(
+      children: [
+        Checkbox(
+          value: false,
+          onChanged: (value) {},
+        ),
+        Text('All'),
+      ],
     );
   }
 }

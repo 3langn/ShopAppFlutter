@@ -12,7 +12,7 @@ class ContainerBorder extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey, width: 0.5),
+        border: Border.all(color: Colors.grey[500]!, width: 0.5),
       ),
       child: child,
     );

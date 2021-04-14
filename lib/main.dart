@@ -27,7 +27,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'MyShop',
         theme: ThemeData(
-          appBarTheme: AppBarTheme.of(context).copyWith(color: Colors.white),
+          appBarTheme: AppBarTheme.of(context).copyWith(
+            color: Colors.white,
+          ),
           accentColor: Colors.redAccent,
           fontFamily: 'Lato',
           backgroundColor: Colors.white,

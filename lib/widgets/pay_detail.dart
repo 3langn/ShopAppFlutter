@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/providers/cart.dart';
 
-class BuyBar extends StatelessWidget {
+class PayDetail extends StatelessWidget {
   final Cart? cart;
-  const BuyBar({Key? key, this.cart}) : super(key: key);
+  const PayDetail({Key? key, required this.cart}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 'Total Price:',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 15),
               ),
               FittedBox(
                 child: Text(
