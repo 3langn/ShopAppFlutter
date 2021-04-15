@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shop_app/constants/constants.dart';
 
 class ItemDetail extends StatelessWidget {
   final String? title;
   final double? price;
   final bool? showSale;
-  ItemDetail({this.price, this.title, this.showSale = true});
+  final bool? showTime;
+  final DateTime dateTime = DateTime.now();
+  ItemDetail({
+    this.price,
+    this.title,
+    this.showSale = false,
+    this.showTime = false,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,6 +40,9 @@ class ItemDetail extends StatelessWidget {
             ),
           ],
         ),
+        showTime!
+            ? Text(DateFormat('dd/MM/yyy - hh:mm').format(dateTime))
+            : Container(),
       ],
     );
   }

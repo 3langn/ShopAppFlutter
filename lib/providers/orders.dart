@@ -1,17 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shop_app/providers/cart.dart';
 
-class OrderItem {
-  final String id;
-  final double amount;
-  final List<CartItem> products;
-  final DateTime dateTime;
-  OrderItem({
-    required this.id,
-    required this.products,
-    required this.amount,
-    required this.dateTime,
-  });
+class OrderItem with ChangeNotifier {
+  String? _id;
+  List<CartItem> _products = [];
+  List<CartItem>? get products {
+    return [..._products];
+  }
+
+  OrderItem();
+  String? get id => _id;
+  double get total {
+    double _total = 0;
+    _products.forEach((cartItem) {
+      _total += cartItem.price;
+    });
+    return _total;
+  }
+
+  void add(CartItem cartItem) {
+    _id = DateTime.now().toString();
+    _products.insert(0, cartItem);
+    print("Đã add vô ordertitem");
+    notifyListeners();
+  }
 }
 
 class Orders with ChangeNotifier {
@@ -20,20 +32,12 @@ class Orders with ChangeNotifier {
     return [..._order];
   }
 
-  void addOrder(
-    List<CartItem> cartProducts,
-    double total,
-    DateTime dateTime,
-  ) {
+  void addOrder(OrderItem orderItem) {
     _order.insert(
       0,
-      OrderItem(
-        id: DateTime.now().toString(),
-        products: cartProducts,
-        amount: total,
-        dateTime: dateTime,
-      ),
+      orderItem,
     );
+    print("Orders PVD");
     notifyListeners();
   }
 }

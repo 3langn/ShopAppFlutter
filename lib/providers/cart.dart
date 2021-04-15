@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CartItem {
-  String id;
-  String title;
-  String imgUrl;
-  double price;
-  int quantity;
+  final String id;
+  final String title;
+  final String imgUrl;
+  final double price;
+  final int quantity;
+  bool isSelected;
   CartItem({
+    this.isSelected = false,
     required this.title,
     required this.id,
     required this.imgUrl,
@@ -18,6 +20,7 @@ class CartItem {
 
 class Cart with ChangeNotifier {
   Map<String, CartItem> _items = {};
+
   Map<String, CartItem> get items {
     return {..._items};
   }
@@ -27,6 +30,7 @@ class Cart with ChangeNotifier {
   }
 
   void changeQuantity(String productId, int btn, BuildContext context) {
+    print(items);
     _items.update(productId, (existingCartItem) {
       int quantity = existingCartItem.quantity;
       if (btn == 0) {
@@ -90,11 +94,27 @@ class Cart with ChangeNotifier {
     return _totalPrice;
   }
 
+  void toggleSelected(String productId) {
+    _items.update(
+      productId,
+      (existingCartItem) => CartItem(
+        isSelected: !existingCartItem.isSelected,
+        id: existingCartItem.id,
+        title: existingCartItem.title,
+        imgUrl: existingCartItem.imgUrl,
+        price: existingCartItem.price,
+        quantity: existingCartItem.quantity,
+      ),
+    );
+    notifyListeners();
+  }
+
   void addItem(String productId, String title, String imgUrl, double price) {
     if (_items.containsKey(productId)) {
       _items.update(
         productId,
         (existingCartItem) => CartItem(
+          isSelected: existingCartItem.isSelected,
           id: existingCartItem.id,
           title: existingCartItem.title,
           imgUrl: existingCartItem.imgUrl,

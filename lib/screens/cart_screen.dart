@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart' show Cart;
+import 'package:shop_app/providers/orders.dart';
+import 'package:shop_app/screens/order_screen.dart';
 import 'package:shop_app/widgets/appbar_navigate_before.dart';
 import 'package:shop_app/widgets/cart_item.dart';
 import 'package:shop_app/widgets/pay_detail.dart';
@@ -29,6 +31,7 @@ class CartScreen extends StatelessWidget {
               child: ListView.builder(
                 itemBuilder: (ctx, index) {
                   return CartItem(
+                    isSelected: cart.items.values.toList()[index].isSelected,
                     id: cart.items.values.toList()[index].id,
                     title: cart.items.values.toList()[index].title,
                     imgUrl: cart.items.values.toList()[index].imgUrl,
@@ -63,8 +66,17 @@ class CartScreen extends StatelessWidget {
   }
 
   TextButton buildTextButtonBuy(BuildContext context) {
+    final orders = Provider.of<Orders>(context);
+    final orderItem = Provider.of<OrderItem>(context);
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        print("In orderItem");
+        print(orderItem);
+        print(orderItem.id);
+        orders.addOrder(orderItem);
+        print(orders.order[0].products![0].title);
+        Navigator.of(context).pushNamed(OrderScreen.routeName);
+      },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
           (Set<MaterialState> states) {

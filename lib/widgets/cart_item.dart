@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/cart.dart' as Cart;
+import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/widgets/item_detail.dart';
 
 import 'container_border.dart';
@@ -10,7 +13,9 @@ class CartItem extends StatelessWidget {
   final int quantity;
   final double price;
   final Function changeQuantity;
+  final bool isSelected;
   CartItem({
+    required this.isSelected,
     required this.id,
     required this.title,
     required this.imgUrl,
@@ -27,11 +32,26 @@ class CartItem extends StatelessWidget {
       width: 100,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
+          final order = Provider.of<OrderItem>(context);
           return Row(
             children: [
-              Checkbox(
-                value: false,
-                onChanged: (value) {},
+              Consumer<Cart.Cart>(
+                builder: (ctx, cart, ch) {
+                  return Checkbox(
+                    value: isSelected,
+                    onChanged: (value) {
+                      cart.toggleSelected(id);
+
+                      order.add(Cart.CartItem(
+                        title: title,
+                        id: id,
+                        imgUrl: imgUrl,
+                        price: price,
+                        quantity: quantity,
+                      ));
+                    },
+                  );
+                },
               ),
               Container(
                 height: constraints.maxHeight,
@@ -47,14 +67,15 @@ class CartItem extends StatelessWidget {
                 height: constraints.maxWidth * 1 / 15,
                 width: constraints.maxWidth * 1 / 15,
                 child: IconButton(
-                    padding: EdgeInsets.zero,
-                    icon: Icon(
-                      Icons.remove,
-                      size: constraints.maxWidth * 1 / 20,
-                    ),
-                    onPressed: () {
-                      changeQuantity(id, 0, context);
-                    }),
+                  padding: EdgeInsets.zero,
+                  icon: Icon(
+                    Icons.remove,
+                    size: constraints.maxWidth * 1 / 20,
+                  ),
+                  onPressed: () {
+                    changeQuantity(id, 0, context);
+                  },
+                ),
               ),
               Container(
                 alignment: Alignment.center,
