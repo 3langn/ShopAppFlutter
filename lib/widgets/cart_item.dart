@@ -1,30 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/cart.dart' as Cart;
-import 'package:shop_app/providers/orders.dart';
+import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/widgets/item_detail.dart';
 
 import 'container_border.dart';
 
 class CartItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imgUrl;
-  final int quantity;
-  final double price;
-  final Function changeQuantity;
-  final bool isSelected;
-  CartItem({
-    required this.isSelected,
-    required this.id,
-    required this.title,
-    required this.imgUrl,
-    required this.quantity,
-    required this.price,
-    required this.changeQuantity,
-  });
   @override
   Widget build(BuildContext context) {
+    final cartItem = Provider.of<CartItemProvider>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
     return Container(
       padding: EdgeInsets.all(10),
       alignment: Alignment.center,
@@ -32,35 +17,23 @@ class CartItem extends StatelessWidget {
       width: 100,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          final order = Provider.of<OrderItem>(context);
           return Row(
             children: [
-              Consumer<Cart.Cart>(
-                builder: (ctx, cart, ch) {
-                  return Checkbox(
-                    value: isSelected,
-                    onChanged: (value) {
-                      cart.toggleSelected(id);
-
-                      order.add(Cart.CartItem(
-                        title: title,
-                        id: id,
-                        imgUrl: imgUrl,
-                        price: price,
-                        quantity: quantity,
-                      ));
-                    },
-                  );
+              Checkbox(
+                value: cart.items['${cartItem.id}']!.isSelected,
+                onChanged: (value) {
+                  cart.toggleSelected(cartItem.id);
                 },
               ),
               Container(
                 height: constraints.maxHeight,
                 width: constraints.maxHeight,
-                child: Image.network(imgUrl),
+                child: Image.network(cartItem.imgUrl),
               ),
               ItemDetail(
-                title: title,
-                price: price,
+                title: cartItem.title,
+                price: cartItem.price,
+                dateTime: DateTime.now(),
               ),
               Spacer(),
               ContainerBorder(
@@ -73,7 +46,11 @@ class CartItem extends StatelessWidget {
                     size: constraints.maxWidth * 1 / 20,
                   ),
                   onPressed: () {
-                    changeQuantity(id, 0, context);
+                    cart.changeQuantity(
+                      cartItem.id,
+                      0,
+                      context,
+                    );
                   },
                 ),
               ),
@@ -90,7 +67,7 @@ class CartItem extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  quantity.toString(),
+                  cartItem.quantity.toString(),
                   style: TextStyle(
                     fontSize: constraints.maxWidth * 1 / 20,
                   ),
@@ -106,7 +83,11 @@ class CartItem extends StatelessWidget {
                     size: constraints.maxWidth * 1 / 20,
                   ),
                   onPressed: () {
-                    changeQuantity(id, 1, context);
+                    cart.changeQuantity(
+                      cartItem.id,
+                      1,
+                      context,
+                    );
                   },
                 ),
               ),

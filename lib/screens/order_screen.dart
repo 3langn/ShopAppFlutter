@@ -4,24 +4,39 @@ import 'package:shop_app/providers/orders.dart' show Orders;
 import 'package:shop_app/widgets/appbar_navigate_before.dart';
 import 'package:shop_app/widgets/order_item.dart';
 
-class OrderScreen extends StatelessWidget {
+class OrderScreen extends StatefulWidget {
   static const routeName = 'order_screen';
+
+  @override
+  _OrderScreenState createState() => _OrderScreenState();
+}
+
+class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
+    print('Order Screen build');
     final orders = Provider.of<Orders>(context);
     return Scaffold(
       appBar: AppBarPop(title: 'Order'),
       body: Column(
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height - 200,
-            width: double.infinity,
+          Expanded(
             child: ListView.builder(
+              shrinkWrap: true,
               itemBuilder: (context, index) {
-                return OrderItem(
-                  orderItem: orders.order[index],
-                  id: DateTime.now().toString(),
-                  dateTime: DateTime.now(),
+                return Column(
+                  children: [
+                    OrderItem(
+                      orderItem: orders.order[index],
+                      id: DateTime.now().toString(),
+                      dateTime: DateTime.now(),
+                    ),
+                    Divider(
+                      height: 0.2,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(height: 10)
+                  ],
                 );
               },
               itemCount: orders.order.length,

@@ -7,10 +7,11 @@ class ItemDetail extends StatelessWidget {
   final double? price;
   final bool? showSale;
   final bool? showTime;
-  final DateTime dateTime = DateTime.now();
+  final DateTime dateTime;
   ItemDetail({
-    this.price,
-    this.title,
+    required this.dateTime,
+    required this.title,
+    required this.price,
     this.showSale = false,
     this.showTime = false,
   });

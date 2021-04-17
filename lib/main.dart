@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Orders(),
         ),
-        ChangeNotifierProvider(create: (context) => OrderItem())
       ],
       child: MaterialApp(
         title: 'MyShop',

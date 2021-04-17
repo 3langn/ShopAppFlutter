@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CartItem {
+class CartItemProvider with ChangeNotifier {
   final String id;
   final String title;
   final String imgUrl;
   final double price;
   final int quantity;
   bool isSelected;
-  CartItem({
+  CartItemProvider({
     this.isSelected = false,
     required this.title,
     required this.id,
@@ -19,9 +19,9 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  Map<String, CartItem> _items = {};
+  Map<String, CartItemProvider> _items = {};
 
-  Map<String, CartItem> get items {
+  Map<String, CartItemProvider> get items {
     return {..._items};
   }
 
@@ -29,8 +29,15 @@ class Cart with ChangeNotifier {
     return _items.length;
   }
 
+  int get totalIsSelected {
+    int total = 0;
+    _items.values.forEach((element) {
+      if (element.isSelected) total += element.quantity;
+    });
+    return total;
+  }
+
   void changeQuantity(String productId, int btn, BuildContext context) {
-    print(items);
     _items.update(productId, (existingCartItem) {
       int quantity = existingCartItem.quantity;
       if (btn == 0) {
@@ -70,7 +77,7 @@ class Cart with ChangeNotifier {
       } else if (btn == 1) {
         quantity++;
       }
-      return CartItem(
+      return CartItemProvider(
         id: existingCartItem.id,
         title: existingCartItem.title,
         imgUrl: existingCartItem.imgUrl,
@@ -82,7 +89,26 @@ class Cart with ChangeNotifier {
   }
 
   void clear() {
-    _items = {};
+    print('CartItem clear');
+    _items.removeWhere((key, value) => value.isSelected);
+    notifyListeners();
+  }
+
+  void removeSingleItem(String productId) {
+    if (_items[productId]!.quantity > 1) {
+      _items.update(productId, (existingCartItem) {
+        return CartItemProvider(
+          isSelected: !existingCartItem.isSelected,
+          id: existingCartItem.id,
+          title: existingCartItem.title,
+          imgUrl: existingCartItem.imgUrl,
+          price: existingCartItem.price,
+          quantity: existingCartItem.quantity - 1,
+        );
+      });
+    } else {
+      _items.remove(productId);
+    }
     notifyListeners();
   }
 
@@ -95,17 +121,16 @@ class Cart with ChangeNotifier {
   }
 
   void toggleSelected(String productId) {
-    _items.update(
-      productId,
-      (existingCartItem) => CartItem(
+    _items.update(productId, (existingCartItem) {
+      return CartItemProvider(
         isSelected: !existingCartItem.isSelected,
         id: existingCartItem.id,
         title: existingCartItem.title,
         imgUrl: existingCartItem.imgUrl,
         price: existingCartItem.price,
         quantity: existingCartItem.quantity,
-      ),
-    );
+      );
+    });
     notifyListeners();
   }
 
@@ -113,7 +138,7 @@ class Cart with ChangeNotifier {
     if (_items.containsKey(productId)) {
       _items.update(
         productId,
-        (existingCartItem) => CartItem(
+        (existingCartItem) => CartItemProvider(
           isSelected: existingCartItem.isSelected,
           id: existingCartItem.id,
           title: existingCartItem.title,
@@ -125,7 +150,7 @@ class Cart with ChangeNotifier {
     } else {
       _items.putIfAbsent(
         productId,
-        () => CartItem(
+        () => CartItemProvider(
           title: title,
           id: productId,
           imgUrl: imgUrl,

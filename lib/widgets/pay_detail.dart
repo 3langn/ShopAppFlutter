@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/providers/cart.dart';
 
 class PayDetail extends StatelessWidget {
-  final Cart? cart;
-  const PayDetail({Key? key, required this.cart}) : super(key: key);
+  const PayDetail({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +19,7 @@ class PayDetail extends StatelessWidget {
               ),
               FittedBox(
                 child: Text(
-                  ' ${cart!.totalPrice.toStringAsFixed(3)}đ',
+                  '0đ',
                   style: TextStyle(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.bold,
