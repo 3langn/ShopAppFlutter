@@ -4,9 +4,10 @@ import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/screens/cart_screen.dart';
+import 'package:shop_app/screens/main_screen.dart';
 import 'package:shop_app/screens/order_screen.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
-import 'package:shop_app/screens/products_overview_screen.dart';
+import 'package:shop_app/screens/user_product_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,21 +34,21 @@ class MyApp extends StatelessWidget {
           ),
           accentColor: Colors.redAccent,
           fontFamily: 'Lato',
-          backgroundColor: Colors.white,
           textTheme: TextTheme(
-              headline6: TextStyle(
-                fontSize: 25,
-              ),
-              subtitle1: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-              )),
+            headline6: TextStyle(
+              fontSize: 25,
+            ),
+            subtitle1: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
-        home: ProductsOverviewScreen(),
+        home: MainScreen(),
         routes: {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
           OrderScreen.routeName: (ctx) => OrderScreen(),
+          UserProductScreen.routeName: (ctx) => UserProductScreen(),
         },
       ),
     );

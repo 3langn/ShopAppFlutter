@@ -35,6 +35,14 @@ class Products with ChangeNotifier {
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     ),
+    Product(
+      id: 'p5',
+      title: 'Hiếu Hói',
+      description: 'It\'s use less - FREE ',
+      price: 0.0,
+      imageUrl:
+          'https://scontent.fvca1-2.fna.fbcdn.net/v/t1.6435-9/158736024_3152395031748006_6703550771153301810_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=8bfeb9&_nc_ohc=IajRRIWLPwIAX-dKngj&_nc_ht=scontent.fvca1-2.fna&oh=12eb1019f41a1b85b906cdc11d4181d7&oe=609F75D8',
+    ),
   ];
 
   bool showFavoritesOnly = false;
