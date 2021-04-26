@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart' show Cart, CartItemProvider;
 import 'package:shop_app/providers/orders.dart';
@@ -90,19 +91,39 @@ class TextButtonBuy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final orders = Provider.of<Orders>(context);
     final cart = Provider.of<Cart>(context);
     return TextButton(
-      onPressed: () {
-        orders.addOrder(
-          OrderItem(
-            products: cart.items.values
-                .where((element) => element.isSelected)
-                .toList(),
-          ),
-        );
-        if (cart.totalIsSelected != 0) {
+      onPressed: () async {
+        List<CartItemProvider> listCart =
+            cart.items.values.where((element) => element.isSelected).toList();
+        if (listCart.length == 0) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                    content: Text('You didn\'t choice product to buy !'));
+              });
+        } else {
+          EasyLoading.instance
+            ..dismissOnTap = true
+            ..textColor = Colors.black54
+            ..displayDuration = const Duration(milliseconds: 2000)
+            ..indicatorSize = 45.0
+            ..loadingStyle = EasyLoadingStyle.custom
+            ..backgroundColor = Colors.white38
+            ..indicatorColor = Colors.black54;
+          EasyLoading.show(
+            status: 'loading...',
+            indicator: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+            ),
+          );
+          await Provider.of<Orders>(context, listen: false).addOrder(
+            listCart,
+          );
+          EasyLoading.dismiss();
           cart.clear();
+          Navigator.of(context).pop();
           Navigator.of(context).pushNamed(OrderScreen.routeName);
         }
       },

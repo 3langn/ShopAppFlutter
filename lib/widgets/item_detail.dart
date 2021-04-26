@@ -1,44 +1,50 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shop_app/constants/constants.dart';
 
-class ItemDetail extends StatelessWidget {
+class ProductDetail extends StatelessWidget {
   final String? title;
   final double? price;
-  final bool? showSale;
+  final int? quantity;
   final bool? showTime;
+  final bool? showQuantity;
   final DateTime dateTime;
-  ItemDetail({
+  ProductDetail({
+    required this.quantity,
     required this.dateTime,
     required this.title,
     required this.price,
-    this.showSale = false,
     this.showTime = false,
+    this.showQuantity = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(title!),
+        Text(
+          title!,
+          style: Theme.of(context).textTheme.headline5,
+        ),
+        SizedBox(height: 20),
         Row(
           children: [
-            showSale!
-                ? Text(
-                    'đ${(price! * 1.2).toStringAsFixed(3)}',
-                    style: TextStyle(
-                      decoration: TextDecoration.lineThrough,
-                      color: Colors.grey,
-                    ),
-                  )
-                : Container(),
+            Text(
+              'đ${(price! * 1.2).toStringAsFixed(3)}',
+              style: TextStyle(
+                decoration: TextDecoration.lineThrough,
+                color: Colors.grey,
+              ),
+            ),
             SizedBox(width: 5),
             Text(
-              'đ${price!.toStringAsFixed(3)}',
+              '${price!.toStringAsFixed(3)}đ',
               style: kPriceTextStyle,
             ),
+            showQuantity! ?SizedBox(width: 90):Container(),
+            showQuantity! ? Text('x$quantity') : Container(),
           ],
         ),
         showTime!

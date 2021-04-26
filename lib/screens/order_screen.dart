@@ -12,9 +12,23 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  var _isLoading = false;
+  @override
+  void initState() {
+    setState(() {
+      _isLoading = true;
+    });
+    Future.delayed(Duration.zero).then((_) async {
+      await Provider.of<Orders>(context, listen: false).fetchAndSetOrders();
+    });
+    setState(() {
+      _isLoading = false;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('Order Screen build');
     final orders = Provider.of<Orders>(context);
     return Scaffold(
       appBar: AppBarPop(title: 'Order'),
@@ -22,14 +36,16 @@ class _OrderScreenState extends State<OrderScreen> {
         children: [
           Expanded(
             child: ListView.builder(
+              reverse: true,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
                     OrderItem(
                       orderItem: orders.order[index],
-                      id: DateTime.now().toString(),
-                      dateTime: DateTime.now(),
+                      id: orders.order[index].id,
+                      dateTime: orders.order[index].dateTime,
+                      amount: orders.order[index].amount,
                     ),
                     Divider(
                       height: 0.2,

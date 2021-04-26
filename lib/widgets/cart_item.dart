@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
@@ -30,7 +31,9 @@ class CartItem extends StatelessWidget {
                 width: constraints.maxHeight,
                 child: Image.network(cartItem.imgUrl),
               ),
-              ItemDetail(
+              SizedBox(width: 10),
+              ProductDetail(
+                quantity: cartItem.quantity,
                 title: cartItem.title,
                 price: cartItem.price,
                 dateTime: DateTime.now(),

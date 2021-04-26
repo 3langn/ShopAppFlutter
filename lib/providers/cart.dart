@@ -89,7 +89,6 @@ class Cart with ChangeNotifier {
   }
 
   void clear() {
-    print('CartItem clear');
     _items.removeWhere((key, value) => value.isSelected);
     notifyListeners();
   }
@@ -113,11 +112,13 @@ class Cart with ChangeNotifier {
   }
 
   double get totalPrice {
-    double _totalPrice = 0;
-    _items.forEach((key, cart) {
-      _totalPrice += cart.price * cart.quantity;
+    double totalPrice = 0;
+    _items.forEach((key, value) {
+      if (value.isSelected) {
+        totalPrice += value.quantity * value.price;
+      }
     });
-    return _totalPrice;
+    return totalPrice;
   }
 
   void toggleSelected(String productId) {

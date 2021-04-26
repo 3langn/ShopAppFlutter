@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/products_overview_screen.dart';
-import 'package:shop_app/screens/user_product_screen.dart';
+import 'package:shop_app/screens/user_product/user_product_screen.dart';
 import 'package:shop_app/screens/user_profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -35,11 +35,17 @@ class _MainScreenState extends State<MainScreen> {
     //   'label': 'Cart',
     // },
   ];
+  @override
+  void initState() {
+    print('Init Main Screen');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),
