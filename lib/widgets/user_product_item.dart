@@ -4,9 +4,9 @@ import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/screens/user_product/edit_product_screen.dart';
 
 class UserProductItem extends StatelessWidget {
-  final String title;
-  final String imageUrl;
-  final String id;
+  final String? title;
+  final String? imageUrl;
+  final String? id;
   UserProductItem({
     required this.title,
     required this.imageUrl,
@@ -16,11 +16,11 @@ class UserProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
     return ListTile(
-      title: Text(title),
+      title: Text(title!),
       leading: Container(
         height: 100,
         width: 80,
-        child: Image.network(imageUrl),
+        child: Image.network(imageUrl!),
       ),
       trailing: Container(
         width: 100,

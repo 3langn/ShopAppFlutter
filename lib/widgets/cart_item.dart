@@ -29,7 +29,7 @@ class CartItem extends StatelessWidget {
               Container(
                 height: constraints.maxHeight,
                 width: constraints.maxHeight,
-                child: Image.network(cartItem.imgUrl),
+                child: Image.network(cartItem.imgUrl!),
               ),
               SizedBox(width: 10),
               ProductDetail(

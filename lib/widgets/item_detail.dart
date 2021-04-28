@@ -9,7 +9,7 @@ class ProductDetail extends StatelessWidget {
   final int? quantity;
   final bool? showTime;
   final bool? showQuantity;
-  final DateTime dateTime;
+  final DateTime? dateTime;
   ProductDetail({
     required this.quantity,
     required this.dateTime,
@@ -43,12 +43,12 @@ class ProductDetail extends StatelessWidget {
               '${price!.toStringAsFixed(3)}đ',
               style: kPriceTextStyle,
             ),
-            showQuantity! ?SizedBox(width: 90):Container(),
+            showQuantity! ? SizedBox(width: 90) : Container(),
             showQuantity! ? Text('x$quantity') : Container(),
           ],
         ),
         showTime!
-            ? Text(DateFormat('dd/MM/yyy - hh:mm').format(dateTime))
+            ? Text(DateFormat('dd/MM/yyy - hh:mm').format(dateTime!))
             : Container(),
       ],
     );

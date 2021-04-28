@@ -4,10 +4,10 @@ import 'package:shop_app/providers/orders.dart' as pOrder;
 import 'package:shop_app/widgets/item_detail.dart';
 
 class OrderItem extends StatelessWidget {
-  final pOrder.OrderItem orderItem;
-  final String id;
-  final DateTime dateTime;
-  final double amount;
+  final pOrder.OrderItem? orderItem;
+  final String? id;
+  final DateTime? dateTime;
+  final double? amount;
   OrderItem({
     required this.amount,
     required this.id,
@@ -40,14 +40,14 @@ class OrderItem extends StatelessWidget {
                           height: constraints.maxHeight,
                           width: constraints.maxHeight,
                           child:
-                              Image.network(orderItem.products[index].imgUrl),
+                              Image.network(orderItem!.products![index].imgUrl!),
                         ),
                         SizedBox(width: 10),
                         ProductDetail(
                           showQuantity: true,
-                          quantity: orderItem.products[index].quantity,
-                          title: orderItem.products[index].title,
-                          price: orderItem.products[index].price,
+                          quantity: orderItem!.products![index].quantity,
+                          title: orderItem!.products![index].title,
+                          price: orderItem!.products![index].price,
                           dateTime: dateTime,
                         ),
                       ],
@@ -56,7 +56,7 @@ class OrderItem extends StatelessWidget {
                 ),
               );
             },
-            itemCount: orderItem.products.length,
+            itemCount: orderItem!.products!.length,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -64,7 +64,7 @@ class OrderItem extends StatelessWidget {
               Text('Total : '),
               SizedBox(width: 20),
               Text(
-                '${orderItem.amount.toStringAsFixed(3)} đ',
+                '${orderItem!.amount!.toStringAsFixed(3)} đ',
                 style: kPriceTextStyle,
               ),
             ],

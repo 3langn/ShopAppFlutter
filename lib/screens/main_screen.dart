@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
         currentIndex: _selectIndex,
         onTap: _onTapBottomNavigationBar,
       ),
-      body: _pages[_selectIndex]['page'] as Widget,
+      body: _pages[_selectIndex]['page'] as Widget?,
     );
   }
 }

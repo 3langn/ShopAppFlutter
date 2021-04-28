@@ -7,32 +7,37 @@ import 'package:shop_app/models/http_exception.dart';
 import 'package:shop_app/providers/product.dart';
 
 class Products with ChangeNotifier {
-  List<Product> _items = [];
+  List<Product>? _items = [];
 
   bool showFavoritesOnly = false;
+  late final String? authToken;
+  void update(String? authToken, List<Product>? item) {
+    this.authToken = authToken;
+    this._items = items;
+  }
 
-  List<Product> get items {
+  List<Product>? get items {
     if (showFavoritesOnly) {
-      return _items.where((prodItem) => prodItem.isFavorite).toList();
+      return _items!.where((prodItem) => prodItem.isFavorite).toList();
     }
-    return [..._items];
+    return [..._items!];
   }
 
   List<Product> get favoritesItem {
-    return _items.where((prodItem) => prodItem.isFavorite).toList();
+    return _items!.where((prodItem) => prodItem.isFavorite).toList();
   }
 
-  Product findById(String? id) {
-    return _items.firstWhere((prod) => prod.id == id);
+  Product findById(String id) {
+    return _items!.firstWhere((prod) => prod.id == id);
   }
 
   Future<void> fetchAndSetProducts() async {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://shop-36394-default-rtdb.firebaseio.com/products.json'),
+            'https://shop-36394-default-rtdb.firebaseio.com/products.json?auth=$authToken'),
       );
-      final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
+      final extractedData = jsonDecode(response.body) as Map<String, dynamic>?;
       if (extractedData == null) return;
       final List<Product> loadedProduct = [];
       extractedData.forEach((productId, productData) {
@@ -75,7 +80,7 @@ class Products with ChangeNotifier {
         imageUrl: editedProduct.imageUrl,
         id: jsonDecode(response.body)['name'],
       );
-      _items.add(newProduct);
+      _items!.add(newProduct);
       notifyListeners();
     } catch (e) {
       print(e);
@@ -83,8 +88,8 @@ class Products with ChangeNotifier {
     }
   }
 
-  Future<void> updateProduct(String id, Product newProduct) async {
-    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+  Future<void> updateProduct(String? id, Product newProduct) async {
+    final prodIndex = _items!.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       try {
         await http.patch(
@@ -100,24 +105,24 @@ class Products with ChangeNotifier {
       } catch (e) {
         print(e);
       }
-      _items[prodIndex] = newProduct;
+      _items![prodIndex] = newProduct;
       notifyListeners();
     } else {
       print('...');
     }
   }
 
-  Future<void> removeProduct(String id) async {
+  Future<void> removeProduct(String? id) async {
     final url =
         'https://shop-36394-default-rtdb.firebaseio.com/products/$id.json';
     final existingProductIndex =
-        _items.indexWhere((element) => element.id == id);
-    var existingProductItem = _items[existingProductIndex];
-    _items.removeAt(existingProductIndex);
+        _items!.indexWhere((element) => element.id == id);
+    var existingProductItem = _items![existingProductIndex];
+    _items!.removeAt(existingProductIndex);
     notifyListeners();
     final response = await http.delete(Uri.parse(url));
     if (response.statusCode >= 400) {
-      _items.insert(existingProductIndex, existingProductItem);
+      _items!.insert(existingProductIndex, existingProductItem);
       notifyListeners();
       throw HttpException('Could not delete products.');
     }

@@ -44,15 +44,15 @@ class UserProductScreen extends StatelessWidget {
                   return Column(
                     children: [
                       UserProductItem(
-                        id: productsData.items[i].id,
-                        title: productsData.items[i].title,
-                        imageUrl: productsData.items[i].imageUrl,
+                        id: productsData.items![i].id,
+                        title: productsData.items![i].title,
+                        imageUrl: productsData.items![i].imageUrl,
                       ),
                       Divider(),
                     ],
                   );
                 },
-                itemCount: productsData.items.length,
+                itemCount: productsData.items!.length,
               );
             },
           ),

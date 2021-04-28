@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
@@ -9,9 +10,11 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: GridTile(
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 3,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
         child: GestureDetector(
           onTap: () {
             Navigator.of(context).pushNamed(
@@ -19,59 +22,118 @@ class ProductItem extends StatelessWidget {
               arguments: product.id,
             );
           },
-          child: Container(
-            color: Colors.white,
-            child: Image.network(
-              product.imageUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        footer: GridTileBar(
-          backgroundColor: Colors.white,
-          leading: Consumer<Product>(
-            builder: (BuildContext context, product, Widget? child) {
-              return IconButton(
-                icon: Icon(
-                  product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: Theme.of(context).accentColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 180,
+                child: Image.network(
+                  product.imageUrl,
+                  fit: BoxFit.cover,
                 ),
-                onPressed: () {
-                  product.toggleFavoriteStatus();
-                },
-              );
-            },
-          ),
-          title: Text(
-            product.title,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          trailing: IconButton(
-            icon: Icon(
-              Icons.shopping_cart,
-            ),
-            onPressed: () {
-              cart.addItem(
-                product.id,
-                product.title,
-                product.imageUrl,
-                product.price,
-              );
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text('Added item to cart !'),
-                    duration: Duration(seconds: 2),
-                    action: SnackBarAction(
-                      label: 'UNDO',
-                      onPressed: () {
-                        cart.removeSingleItem(product.id);
-                      },
-                    )),
-              );
-            },
-            color: Theme.of(context).accentColor,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.title,
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '\đ ${product.price.toStringAsFixed(3)}',
+                          style: TextStyle(fontWeight: FontWeight.w800),
+                        ),
+                        Text('9 Sale', style: TextStyle(color: Colors.grey)),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on_sharp,
+                                  color: Colors.grey,
+                                  size: 16,
+                                ),
+                                Text(
+                                  'Ho Chi Minh',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.star_border_outlined,
+                                  size: 15,
+                                  color: Colors.yellow,
+                                ),
+                                Icon(
+                                  Icons.star_border,
+                                  size: 15,
+                                  color: Colors.yellow,
+                                ),
+                                Icon(
+                                  Icons.star_border,
+                                  size: 15,
+                                  color: Colors.yellow,
+                                ),
+                                Icon(
+                                  Icons.star_border,
+                                  size: 15,
+                                  color: Colors.yellow,
+                                ),
+                                Icon(
+                                  Icons.star_border,
+                                  size: 15,
+                                  color: Colors.yellow,
+                                ),
+                                Text('(9)'),
+                              ],
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          iconSize: 30,
+                          icon: Icon(
+                            Icons.shopping_cart,
+                          ),
+                          onPressed: () {
+                            cart.addItem(
+                              product.id,
+                              product.title,
+                              product.imageUrl,
+                              product.price,
+                            );
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('Added item to cart !'),
+                                  duration: Duration(seconds: 2),
+                                  action: SnackBarAction(
+                                    label: 'UNDO',
+                                    onPressed: () {
+                                      cart.removeSingleItem(product.id);
+                                    },
+                                  )),
+                            );
+                          },
+                          color: Theme.of(context).accentColor,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

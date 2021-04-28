@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:shop_app/providers/cart.dart';
 
 class OrderItem {
-  final List<CartItemProvider> products;
-  final String id;
-  final double amount;
-  final DateTime dateTime;
+  final List<CartItemProvider>? products;
+  final String? id;
+  final double? amount;
+  final DateTime? dateTime;
   OrderItem({
     required this.id,
     required this.amount,
@@ -29,7 +29,7 @@ class Orders with ChangeNotifier {
         Uri.parse('https://shop-36394-default-rtdb.firebaseio.com/orders.json');
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
-    final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
+    final extractedData = jsonDecode(response.body) as Map<String, dynamic>?;
     if (extractedData == null) return;
     extractedData.forEach((orderId, orderData) {
       loadedOrders.add(
@@ -61,7 +61,7 @@ class Orders with ChangeNotifier {
     final timestamp = DateTime.now();
     double total = 0;
     cartProducts.forEach((element) {
-      total += element.price * element.quantity;
+      total += element.price! * element.quantity!;
     });
     final response = await http.post(
       url,
