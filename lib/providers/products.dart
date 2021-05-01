@@ -22,6 +22,13 @@ class Products with ChangeNotifier {
     return [..._items!];
   }
 
+  List<Product> searchProduct(String? search) {
+    return [
+      ...items!
+          .where((element) => element.title.toLowerCase().startsWith(search!))
+    ];
+  }
+
   List<Product> get favoritesItem {
     return _items!.where((prodItem) => prodItem.isFavorite).toList();
   }
@@ -90,7 +97,6 @@ class Products with ChangeNotifier {
     }
   }
 
-  String? a;
   Future<void> updateProduct(String? id, Product newProduct) async {
     final prodIndex = _items!.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {

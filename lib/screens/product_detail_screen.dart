@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/products.dart';
-import 'package:shop_app/screens/search_screen.dart';
+import 'package:shop_app/widgets/badge.dart';
+import 'package:shop_app/widgets/search_bar.dart';
+
+import 'cart_screen.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-detail';
@@ -15,44 +19,41 @@ class ProductDetailScreen extends StatelessWidget {
     ).findById(productId);
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 30,
-        title: Container(
-          height: 40,
-          child: GestureDetector(
-            onTap: () =>
-                Navigator.of(context).pushNamed(SearchScreen.routesName),
-            child: TextField(
-              enabled: false,
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    width: 0,
-                    style: BorderStyle.none,
-                  ),
-                ),
-                prefixIcon: Icon(Icons.search),
-                filled: true,
-                fillColor: Color(0xFFF2F4F5),
-                hintStyle: TextStyle(color: Colors.grey[600]),
-                hintText: "What would your like to buy?",
-              ),
+        leadingWidth: 50,
+        titleSpacing: 2,
+        title: SearchBar(),
+        actions: [
+          Consumer<Cart>(
+            builder: (_, cart, ch) {
+              return Badge(
+                child: ch,
+                value: cart.itemCount.toString(),
+              );
+            },
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
             ),
           ),
-        ),
+          IconButton(
+            icon: Icon(Icons.notifications),
+            onPressed: () {},
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
             Container(
-              height: 300,
+              height: 450,
               width: double.infinity,
               child: Hero(
                 tag: loadedProduct.id,
                 child: Image.network(
                   loadedProduct.imageUrl,
-                  fit: BoxFit.fitHeight,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),

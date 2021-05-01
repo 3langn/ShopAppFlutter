@@ -5,20 +5,19 @@ import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/screens/cart_screen.dart';
 import 'package:shop_app/widgets/badge.dart';
 import 'package:shop_app/widgets/products_grid.dart';
-import 'package:shop_app/widgets/search_bar.dart';
 
 enum FilterOption {
   Favorites,
   All,
 }
 
-class ProductsOverviewScreen extends StatefulWidget {
-  static const routeName = 'products_overview_screen';
+class ProductSearchScreen extends StatefulWidget {
+  static const routeName = 'product_search_screen';
   @override
-  _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
+  _ProductSearchScreenState createState() => _ProductSearchScreenState();
 }
 
-class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+class _ProductSearchScreenState extends State<ProductSearchScreen> {
   bool _showFav = false;
   var _isInit = true;
   var _isLoading = false;
@@ -38,9 +37,14 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final routesArg = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
-        title: SearchBar(),
+        backgroundColor: Colors.pinkAccent,
+        iconTheme: IconTheme.of(context).copyWith(
+          color: Colors.white,
+        ),
+        title: Text('Shop'),
         actions: [
           Consumer<Cart>(
             builder: (_, cart, ch) {
@@ -56,40 +60,35 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               },
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {},
+          PopupMenuButton(
+            onSelected: (FilterOption selectedValue) {
+              setState(() {
+                if (selectedValue == FilterOption.Favorites) {
+                  _showFav = true;
+                } else {
+                  _showFav = false;
+                }
+              });
+            },
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                child: Text('Only Favorites'),
+                value: FilterOption.Favorites,
+              ),
+              PopupMenuItem(
+                child: Text('Show All'),
+                value: FilterOption.All,
+              )
+            ],
           ),
-
-          // PopupMenuButton(
-          //   onSelected: (FilterOption selectedValue) {
-          //     setState(() {
-          //       if (selectedValue == FilterOption.Favorites) {
-          //         _showFav = true;
-          //       } else {
-          //         _showFav = false;
-          //       }
-          //     });
-          //   },
-          //   icon: Icon(Icons.more_vert),
-          //   itemBuilder: (_) => [
-          //     PopupMenuItem(
-          //       child: Text('Only Favorites'),
-          //       value: FilterOption.Favorites,
-          //     ),
-          //     PopupMenuItem(
-          //       child: Text('Show All'),
-          //       value: FilterOption.All,
-          //     )
-          //   ],
-          // ),
         ],
       ),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : ProductsGrid(_showFav, null),
+          : ProductsGrid(_showFav, routesArg),
     );
   }
 }

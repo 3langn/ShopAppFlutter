@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/screens/search_screen.dart';
+import 'package:shop_app/screens/user_product/product_search_screen.dart';
 
 import 'providers/auth.dart';
 import 'providers/cart.dart';
@@ -81,13 +81,13 @@ class MyApp extends StatelessWidget {
                   future: auth.tryAutoLogin(),
                 ),
           routes: {
-            SearchScreen.routesName: (ctx) => SearchScreen(),
             MainScreen.nameRoute: (ctx) => MainScreen(),
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
             OrderScreen.routeName: (ctx) => OrderScreen(),
             UserProductScreen.routeName: (ctx) => UserProductScreen(),
             EditProductScreen.routeName: (ctx) => EditProductScreen(),
+            ProductSearchScreen.routeName: (ctx) => ProductSearchScreen(),
           },
         );
       }),
