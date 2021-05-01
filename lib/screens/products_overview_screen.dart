@@ -23,24 +23,13 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _isLoading = false;
   @override
   void initState() {
-    print('Initttttttttttt');
-    print(_isInit);
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
-      Provider.of<Products>(context, listen: false)
-          .fetchAndSetProducts()
-          .then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
+      Provider.of<Products>(context, listen: false).fetchAndSetProducts();
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -54,7 +43,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         iconTheme: IconTheme.of(context).copyWith(
           color: Colors.white,
         ),
-        title: Text('MyShop'),
+        title: Text('Shop'),
         actions: [
           Consumer<Cart>(
             builder: (_, cart, ch) {

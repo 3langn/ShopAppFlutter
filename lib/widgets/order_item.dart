@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants/constants.dart';
 import 'package:shop_app/providers/orders.dart' as pOrder;
-import 'package:shop_app/widgets/item_detail.dart';
+import 'package:shop_app/widgets/product_detail.dart';
 
 class OrderItem extends StatelessWidget {
   final pOrder.OrderItem? orderItem;
@@ -39,8 +39,8 @@ class OrderItem extends StatelessWidget {
                         Container(
                           height: constraints.maxHeight,
                           width: constraints.maxHeight,
-                          child:
-                              Image.network(orderItem!.products![index].imgUrl!),
+                          child: Image.network(
+                              orderItem!.products![index].imgUrl!),
                         ),
                         SizedBox(width: 10),
                         ProductDetail(

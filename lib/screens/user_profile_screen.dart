@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/screens/order_screen.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -23,7 +25,12 @@ class UserProfileScreen extends StatelessWidget {
               onPressed: () =>
                   Navigator.of(context).pushNamed(OrderScreen.routeName),
               child: Icon(Icons.shopping_bag),
-            )
+            ),
+            ElevatedButton(
+              onPressed: () =>
+                  Provider.of<Auth>(context, listen: false).logOut(),
+              child: Icon(Icons.logout),
+            ),
           ],
         ),
       ),

@@ -30,10 +30,6 @@ class _MainScreenState extends State<MainScreen> {
       'page': UserProfileScreen(),
       'label': 'Profile',
     }
-    // {
-    //   'page': CartScreen(),
-    //   'label': 'Cart',
-    // },
   ];
   @override
   void initState() {
@@ -67,16 +63,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-
-// BottomNavigationBarItem(
-//     icon: Icon(Icons.wysiwyg_rounded),
-//     label: 'Home'
-// ),
-// BottomNavigationBarItem(
-//     icon: Icon(Icons.photo_camera_front),
-//     label: 'Home'
-// ),
-// BottomNavigationBarItem(
-//     icon: Icon(Icons.notifications_active),
-//     label: 'Home'
-// ),

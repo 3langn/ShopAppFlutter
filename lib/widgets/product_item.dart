@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/product.dart';
@@ -27,9 +28,14 @@ class ProductItem extends StatelessWidget {
             children: [
               Container(
                 height: 180,
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.cover,
+                child: Hero(
+                  tag: product.id,
+                  child: FadeInImage(
+                    placeholder:
+                        AssetImage('assets/images/product-placeholder.png'),
+                    image: NetworkImage(product.imageUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Padding(
@@ -40,6 +46,9 @@ class ProductItem extends StatelessWidget {
                     Text(
                       product.title,
                       style: Theme.of(context).textTheme.bodyText1,
+                      overflow: TextOverflow.fade,
+                      softWrap: false,
+                      maxLines: 1,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,35 +78,15 @@ class ProductItem extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.star_border_outlined,
-                                  size: 15,
-                                  color: Colors.yellow,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: 15,
-                                  color: Colors.yellow,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: 15,
-                                  color: Colors.yellow,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: 15,
-                                  color: Colors.yellow,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: 15,
-                                  color: Colors.yellow,
-                                ),
-                                Text('(9)'),
-                              ],
+                            RatingBarIndicator(
+                              rating: product.rating!,
+                              itemBuilder: (context, index) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 18.0,
+                              direction: Axis.horizontal,
                             ),
                           ],
                         ),
@@ -116,14 +105,15 @@ class ProductItem extends StatelessWidget {
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                  content: Text('Added item to cart !'),
-                                  duration: Duration(seconds: 2),
-                                  action: SnackBarAction(
-                                    label: 'UNDO',
-                                    onPressed: () {
-                                      cart.removeSingleItem(product.id);
-                                    },
-                                  )),
+                                content: Text('Added item to cart !'),
+                                duration: Duration(seconds: 2),
+                                action: SnackBarAction(
+                                  label: 'UNDO',
+                                  onPressed: () {
+                                    cart.removeSingleItem(product.id);
+                                  },
+                                ),
+                              ),
                             );
                           },
                           color: Theme.of(context).accentColor,

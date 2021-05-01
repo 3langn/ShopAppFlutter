@@ -9,6 +9,7 @@ class Product with ChangeNotifier {
   final String description;
   final double price;
   final String imageUrl;
+  final double? rating;
   bool isFavorite;
 
   Product({
@@ -17,6 +18,7 @@ class Product with ChangeNotifier {
     required this.description,
     required this.price,
     required this.imageUrl,
+    this.rating = 0.0,
     this.isFavorite = false,
   });
   void _setFavValue(bool newFav) {

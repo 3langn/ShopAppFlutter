@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/auth.dart';
-import 'package:shop_app/providers/cart.dart';
-import 'package:shop_app/providers/orders.dart';
-import 'package:shop_app/providers/products.dart';
-import 'package:shop_app/screens/auth_screen.dart';
-import 'package:shop_app/screens/cart_screen.dart';
-import 'package:shop_app/screens/main_screen.dart';
-import 'package:shop_app/screens/order_screen.dart';
-import 'package:shop_app/screens/product_detail_screen.dart';
-import 'package:shop_app/screens/user_product/edit_product_screen.dart';
-import 'package:shop_app/screens/user_product/user_product_screen.dart';
+import 'package:shop_app/screens/search_screen.dart';
+
+import 'providers/auth.dart';
+import 'providers/cart.dart';
+import 'providers/orders.dart';
+import 'providers/products.dart';
+import 'screens/auth_screen.dart';
+import 'screens/cart_screen.dart';
+import 'screens/main_screen.dart';
+import 'screens/order_screen.dart';
+import 'screens/product_detail_screen.dart';
+import 'screens/splash_screen.dart';
+import 'screens/user_product/edit_product_screen.dart';
+import 'screens/user_product/user_product_screen.dart';
 
 void main() {
   return runApp(MyApp());
@@ -33,12 +36,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
-        ChangeNotifierProvider(
+        ChangeNotifierProxyProvider<Auth, Orders>(
           create: (context) => Orders(),
+          update: (context, auth, preOrder) => Orders()
+            ..update(auth.token, auth.userId,
+                preOrder?.order == null ? [] : preOrder!.order),
         ),
       ],
-      child: Consumer<Auth>(
-        builder: (context, auth, _) => MaterialApp(
+      child: Consumer<Auth>(builder: (context, auth, _) {
+        return MaterialApp(
           builder: EasyLoading.init(),
           debugShowCheckedModeBanner: false,
           title: 'MyShop',
@@ -64,8 +70,18 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          home: auth.isAuth ? MainScreen() : AuthScreen(),
+          home: auth.isAuth
+              ? MainScreen()
+              : FutureBuilder(
+                  builder: (context, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                  future: auth.tryAutoLogin(),
+                ),
           routes: {
+            SearchScreen.routesName: (ctx) => SearchScreen(),
             MainScreen.nameRoute: (ctx) => MainScreen(),
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
@@ -73,8 +89,8 @@ class MyApp extends StatelessWidget {
             UserProductScreen.routeName: (ctx) => UserProductScreen(),
             EditProductScreen.routeName: (ctx) => EditProductScreen(),
           },
-        ),
-      ),
+        );
+      }),
     );
   }
 }

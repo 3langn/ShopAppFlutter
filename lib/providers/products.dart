@@ -1,4 +1,3 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -48,6 +47,7 @@ class Products with ChangeNotifier {
           isFavorite: productData['isFavorite'],
           description: productData['description'],
           title: productData['title'],
+          rating: productData['rating'].toDouble(),
         ));
       });
       _items = loadedProduct;
@@ -62,7 +62,7 @@ class Products with ChangeNotifier {
     try {
       final response = await http.post(
         Uri.parse(
-            'https://shop-36394-default-rtdb.firebaseio.com/products.json'),
+            'https://shop-36394-default-rtdb.firebaseio.com/products.json?auth=$authToken'),
         body: jsonEncode(
           {
             'title': editedProduct.title,
@@ -70,6 +70,7 @@ class Products with ChangeNotifier {
             'price': editedProduct.price,
             'imageUrl': editedProduct.imageUrl,
             'isFavorite': editedProduct.isFavorite,
+            'rating': editedProduct.rating,
           },
         ),
       );
@@ -79,6 +80,7 @@ class Products with ChangeNotifier {
         price: editedProduct.price,
         imageUrl: editedProduct.imageUrl,
         id: jsonDecode(response.body)['name'],
+        rating: editedProduct.rating,
       );
       _items!.add(newProduct);
       notifyListeners();
@@ -88,13 +90,14 @@ class Products with ChangeNotifier {
     }
   }
 
+  String? a;
   Future<void> updateProduct(String? id, Product newProduct) async {
     final prodIndex = _items!.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       try {
         await http.patch(
           Uri.parse(
-              'https://shop-36394-default-rtdb.firebaseio.com/products/$id.json'),
+              'https://shop-36394-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken'),
           body: jsonEncode({
             'title': newProduct.title,
             'description': newProduct.description,
@@ -114,7 +117,7 @@ class Products with ChangeNotifier {
 
   Future<void> removeProduct(String? id) async {
     final url =
-        'https://shop-36394-default-rtdb.firebaseio.com/products/$id.json';
+        'https://shop-36394-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken';
     final existingProductIndex =
         _items!.indexWhere((element) => element.id == id);
     var existingProductItem = _items![existingProductIndex];

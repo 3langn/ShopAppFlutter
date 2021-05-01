@@ -19,14 +19,22 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
-  List<OrderItem> _order = [];
+  List<OrderItem>? _order = [];
   List<OrderItem> get order {
-    return [..._order];
+    return [..._order!];
+  }
+
+  late final String? userId;
+  late final String? token;
+  void update(String? token, String? userId, List<OrderItem>? order) {
+    this.token = token;
+    this._order = order;
+    this.userId = userId;
   }
 
   Future<void> fetchAndSetOrders() async {
-    final url =
-        Uri.parse('https://shop-36394-default-rtdb.firebaseio.com/orders.json');
+    final url = Uri.parse(
+        'https://shop-36394-default-rtdb.firebaseio.com/orders/$userId.json?auth=$token');
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
     final extractedData = jsonDecode(response.body) as Map<String, dynamic>?;
@@ -50,14 +58,14 @@ class Orders with ChangeNotifier {
               .toList(),
         ),
       );
-      _order = loadedOrders;
+      _order = loadedOrders.reversed.toList();
       notifyListeners();
     });
   }
 
   Future<void> addOrder(List<CartItemProvider> cartProducts) async {
-    var url =
-        Uri.parse('https://shop-36394-default-rtdb.firebaseio.com/orders.json');
+    var url = Uri.parse(
+        'https://shop-36394-default-rtdb.firebaseio.com/orders/$userId.json?auth=$token');
     final timestamp = DateTime.now();
     double total = 0;
     cartProducts.forEach((element) {
@@ -79,7 +87,7 @@ class Orders with ChangeNotifier {
             .toList(),
       }),
     );
-    _order.insert(
+    _order!.insert(
       0,
       OrderItem(
         id: jsonDecode(response.body)['name'],

@@ -35,7 +35,6 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: Consumer<Orders>(
                         builder: (BuildContext context, orders, Widget? child) {
                       return ListView.builder(
-                        reverse: true,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return Column(

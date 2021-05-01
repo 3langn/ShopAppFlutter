@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/products.dart';
+import 'package:shop_app/screens/search_screen.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-detail';
@@ -14,34 +15,61 @@ class ProductDetailScreen extends StatelessWidget {
     ).findById(productId);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.navigate_before_outlined,
-            color: Colors.black,
+        leadingWidth: 30,
+        title: Container(
+          height: 40,
+          child: GestureDetector(
+            onTap: () =>
+                Navigator.of(context).pushNamed(SearchScreen.routesName),
+            child: TextField(
+              enabled: false,
+              decoration: InputDecoration(
+                border: UnderlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  borderSide: BorderSide(
+                    width: 0,
+                    style: BorderStyle.none,
+                  ),
+                ),
+                prefixIcon: Icon(Icons.search),
+                filled: true,
+                fillColor: Color(0xFFF2F4F5),
+                hintStyle: TextStyle(color: Colors.grey[600]),
+                hintText: "What would your like to buy?",
+              ),
+            ),
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: Text(
-          loadedProduct.title,
-          style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 300,
-            width: double.infinity,
-            child: Image.network(loadedProduct.imageUrl),
-          ),
-          Text(
-            loadedProduct.title + loadedProduct.description,
-            style: Theme.of(context).textTheme.headline6,
-            textAlign: TextAlign.center,
-          ),
-          Text(loadedProduct.price.toString()),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            Container(
+              height: 300,
+              width: double.infinity,
+              child: Hero(
+                tag: loadedProduct.id,
+                child: Image.network(
+                  loadedProduct.imageUrl,
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            ),
+            Text(
+              loadedProduct.title,
+              style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              loadedProduct.description,
+              style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.center,
+            ),
+            Text(loadedProduct.price.toString()),
+            SizedBox(height: 800),
+          ],
+        ),
       ),
     );
   }
