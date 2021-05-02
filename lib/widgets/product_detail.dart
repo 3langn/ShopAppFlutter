@@ -34,7 +34,7 @@ class ProductDetail extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                'đ${(price! * 1.2).toStringAsFixed(3)}',
+                'đ${(price! * 1.2)}',
                 style: TextStyle(
                   decoration: TextDecoration.lineThrough,
                   color: Colors.grey,
@@ -42,7 +42,7 @@ class ProductDetail extends StatelessWidget {
               ),
               SizedBox(width: 5),
               Text(
-                '${price!.toStringAsFixed(3)}đ',
+                '${price!}đ',
                 style: kPriceTextStyle,
               ),
               Spacer(),

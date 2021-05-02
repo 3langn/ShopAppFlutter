@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/screens/user_product/product_search_screen.dart';
@@ -17,6 +18,9 @@ import 'screens/user_product/edit_product_screen.dart';
 import 'screens/user_product/user_product_screen.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
   return runApp(MyApp());
 }
 
@@ -49,10 +53,11 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'MyShop',
           theme: ThemeData(
+            iconTheme: IconThemeData(color: Colors.white, size: 10),
             appBarTheme: AppBarTheme.of(context).copyWith(
               color: Colors.white,
               iconTheme: IconTheme.of(context).copyWith(
-                color: Colors.black,
+                color: Colors.black87,
               ),
             ),
             accentColor: Colors.redAccent,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
+import 'package:shop_app/providers/product.dart';
 import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/screens/cart_screen.dart';
 import 'package:shop_app/widgets/badge.dart';
@@ -20,7 +21,6 @@ class ProductSearchScreen extends StatefulWidget {
 class _ProductSearchScreenState extends State<ProductSearchScreen> {
   bool _showFav = false;
   var _isInit = true;
-  var _isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -37,7 +37,8 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final routesArg = ModalRoute.of(context)!.settings.arguments as String;
+    final routesArg =
+        ModalRoute.of(context)!.settings.arguments as List<Product>;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pinkAccent,
@@ -60,35 +61,13 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
               },
             ),
           ),
-          PopupMenuButton(
-            onSelected: (FilterOption selectedValue) {
-              setState(() {
-                if (selectedValue == FilterOption.Favorites) {
-                  _showFav = true;
-                } else {
-                  _showFav = false;
-                }
-              });
-            },
-            icon: Icon(Icons.more_vert),
-            itemBuilder: (_) => [
-              PopupMenuItem(
-                child: Text('Only Favorites'),
-                value: FilterOption.Favorites,
-              ),
-              PopupMenuItem(
-                child: Text('Show All'),
-                value: FilterOption.All,
-              )
-            ],
+          IconButton(
+            icon: Icon(Icons.notifications),
+            onPressed: () {},
           ),
         ],
       ),
-      body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ProductsGrid(_showFav, routesArg),
+      body: ProductsGrid(_showFav, routesArg),
     );
   }
 }

@@ -26,18 +26,7 @@ class ProductItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 180,
-                child: Hero(
-                  tag: product.id,
-                  child: FadeInImage(
-                    placeholder:
-                        AssetImage('assets/images/product-placeholder.png'),
-                    image: NetworkImage(product.imageUrl),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+              buildProductImage(product),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
@@ -54,7 +43,7 @@ class ProductItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\đ ${product.price.toStringAsFixed(3)}',
+                          '\đ ${product.price.toStringAsFixed(0)}',
                           style: TextStyle(fontWeight: FontWeight.w800),
                         ),
                         Text('9 Sale', style: TextStyle(color: Colors.grey)),
@@ -125,6 +114,20 @@ class ProductItem extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Container buildProductImage(Product product) {
+    return Container(
+      height: 180,
+      child: Hero(
+        tag: product.id,
+        child: FadeInImage(
+          placeholder: AssetImage('assets/images/product-placeholder.png'),
+          image: NetworkImage(product.imageUrl),
+          fit: BoxFit.cover,
         ),
       ),
     );

@@ -60,29 +60,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             icon: Icon(Icons.notifications),
             onPressed: () {},
           ),
-
-          // PopupMenuButton(
-          //   onSelected: (FilterOption selectedValue) {
-          //     setState(() {
-          //       if (selectedValue == FilterOption.Favorites) {
-          //         _showFav = true;
-          //       } else {
-          //         _showFav = false;
-          //       }
-          //     });
-          //   },
-          //   icon: Icon(Icons.more_vert),
-          //   itemBuilder: (_) => [
-          //     PopupMenuItem(
-          //       child: Text('Only Favorites'),
-          //       value: FilterOption.Favorites,
-          //     ),
-          //     PopupMenuItem(
-          //       child: Text('Show All'),
-          //       value: FilterOption.All,
-          //     )
-          //   ],
-          // ),
         ],
       ),
       body: _isLoading
