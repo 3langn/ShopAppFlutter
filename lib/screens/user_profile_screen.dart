@@ -7,6 +7,7 @@ class UserProfileScreen extends StatelessWidget {
   static const routeName = 'user_profile_screen';
   @override
   Widget build(BuildContext context) {
+    print('UserProfileScreen');
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -24,6 +25,7 @@ class UserProfileScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () =>
                   Navigator.of(context).pushNamed(OrderScreen.routeName),
+              //Navigator.of(context).pushNamed(OrderScreen.routeName),
               child: Icon(Icons.shopping_bag),
             ),
             ElevatedButton(

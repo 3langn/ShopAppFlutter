@@ -2,15 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/products.dart';
-import 'package:shop_app/screens/cart_screen.dart';
-import 'package:shop_app/widgets/badge.dart';
-import 'package:shop_app/widgets/products_grid.dart';
+import 'package:shop_app/screens/cart/cart_screen.dart';
+import 'package:shop_app/screens/overview/components/badge.dart';
+import 'package:shop_app/screens/overview/components/products_grid.dart';
 import 'package:shop_app/widgets/search_bar.dart';
-
-enum FilterOption {
-  Favorites,
-  All,
-}
 
 class ProductsOverviewScreen extends StatefulWidget {
   static const routeName = 'products_overview_screen';
@@ -18,7 +13,8 @@ class ProductsOverviewScreen extends StatefulWidget {
   _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
 }
 
-class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+class _ProductsOverviewScreenState extends State<ProductsOverviewScreen>
+    with AutomaticKeepAliveClientMixin<ProductsOverviewScreen> {
   bool _showFav = false;
   var _isInit = true;
   var _isLoading = false;
@@ -38,6 +34,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: SearchBar(),
@@ -69,4 +66,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           : ProductsGrid(_showFav, null),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

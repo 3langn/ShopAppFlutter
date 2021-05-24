@@ -4,7 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/product.dart';
-import 'package:shop_app/screens/product_detail_screen.dart';
+import 'package:shop_app/screens/detail/product_detail_screen.dart';
 
 class ProductItem extends StatelessWidget {
   @override
@@ -46,7 +46,7 @@ class ProductItem extends StatelessWidget {
                           '\đ ${product.price.toStringAsFixed(0)}',
                           style: TextStyle(fontWeight: FontWeight.w800),
                         ),
-                        Text('9 Sale', style: TextStyle(color: Colors.grey)),
+                        //Text('9 Sale', style: TextStyle(color: Colors.grey)),
                       ],
                     ),
                     Row(

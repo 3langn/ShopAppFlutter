@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants/constants.dart';
 import 'package:shop_app/providers/orders.dart' as pOrder;
-import 'package:shop_app/widgets/product_detail.dart';
+import 'package:shop_app/screens/detail/components/product_detail.dart';
 
 class OrderItem extends StatelessWidget {
   final pOrder.OrderItem? orderItem;

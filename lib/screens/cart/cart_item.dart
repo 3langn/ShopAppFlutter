@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
-import 'package:shop_app/widgets/product_detail.dart';
+import 'package:shop_app/screens/detail/components/product_detail.dart';
 
-import 'container_border.dart';
+import '../../widgets/container_border.dart';
 
 class CartItem extends StatelessWidget {
   @override

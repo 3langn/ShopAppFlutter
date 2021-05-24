@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/products_overview_screen.dart';
+import 'package:shop_app/screens/overview/products_overview_screen.dart';
 import 'package:shop_app/screens/user_product/user_product_screen.dart';
 import 'package:shop_app/screens/user_profile_screen.dart';
 
@@ -10,31 +10,31 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectIndex = 0;
+  late int _selectIndex;
+  final _page = [
+    ProductsOverviewScreen(),
+    UserProductScreen(),
+    UserProfileScreen()
+  ];
+  late final PageController _pageController;
   void _onTapBottomNavigationBar(int index) {
     setState(() {
       _selectIndex = index;
+      _pageController.jumpToPage(_selectIndex);
     });
   }
 
-  late List<Map<String, Object>> _pages = [
-    {
-      'page': ProductsOverviewScreen(),
-      'label': 'Overview',
-    },
-    {
-      'page': UserProductScreen(),
-      'label': 'User Product',
-    },
-    {
-      'page': UserProfileScreen(),
-      'label': 'Profile',
-    }
-  ];
   @override
   void initState() {
-    print('Init Main Screen');
     super.initState();
+    _selectIndex = 0;
+    _pageController = PageController(initialPage: _selectIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,7 +59,11 @@ class _MainScreenState extends State<MainScreen> {
         currentIndex: _selectIndex,
         onTap: _onTapBottomNavigationBar,
       ),
-      body: _pages[_selectIndex]['page'] as Widget?,
+      body: PageView(
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
+        children: _page,
+      ),
     );
   }
 }

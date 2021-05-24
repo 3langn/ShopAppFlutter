@@ -9,10 +9,10 @@ import 'providers/cart.dart';
 import 'providers/orders.dart';
 import 'providers/products.dart';
 import 'screens/auth_screen.dart';
-import 'screens/cart_screen.dart';
+import 'screens/cart/cart_screen.dart';
+import 'screens/detail/product_detail_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/order_screen.dart';
-import 'screens/product_detail_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/user_product/edit_product_screen.dart';
 import 'screens/user_product/user_product_screen.dart';
@@ -53,9 +53,9 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'MyShop',
           theme: ThemeData(
-            iconTheme: IconThemeData(color: Colors.white, size: 10),
+            iconTheme: IconThemeData(color: Colors.white, size: 20),
             appBarTheme: AppBarTheme.of(context).copyWith(
-              color: Colors.white,
+              color: Colors.black,
               iconTheme: IconTheme.of(context).copyWith(
                 color: Colors.black87,
               ),

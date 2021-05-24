@@ -4,9 +4,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart' show Cart, CartItemProvider;
 import 'package:shop_app/providers/orders.dart';
+import 'package:shop_app/screens/cart/cart_item.dart';
 import 'package:shop_app/screens/order_screen.dart';
 import 'package:shop_app/widgets/appbar_navigate_before.dart';
-import 'package:shop_app/widgets/cart_item.dart';
 import 'package:shop_app/widgets/pay_detail.dart';
 
 const double kToolbarHeight = 56.0;

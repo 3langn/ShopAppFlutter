@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/product.dart';
 import 'package:shop_app/providers/products.dart';
-import 'package:shop_app/screens/cart_screen.dart';
-import 'package:shop_app/widgets/badge.dart';
-import 'package:shop_app/widgets/products_grid.dart';
+import 'package:shop_app/screens/cart/cart_screen.dart';
+import 'package:shop_app/screens/overview/components/badge.dart';
+import 'package:shop_app/screens/overview/components/products_grid.dart';
 
 enum FilterOption {
   Favorites,

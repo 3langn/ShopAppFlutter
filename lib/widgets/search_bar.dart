@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/services/search_service.dart';
+import 'package:shop_app/helpers/search_helper.dart';
 
 class SearchBar extends StatelessWidget {
   const SearchBar({

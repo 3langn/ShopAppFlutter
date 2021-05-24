@@ -8,7 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/product.dart';
 import 'package:shop_app/providers/products.dart';
-import 'package:shop_app/screens/product_detail_screen.dart';
+import 'package:shop_app/screens/detail/product_detail_screen.dart';
 import 'package:shop_app/screens/user_product/product_search_screen.dart';
 
 /// Shows a full screen search page and returns the search result selected by
@@ -126,6 +126,7 @@ abstract class CustomSearchDelegate<T> {
   /// ```
   /// {@end-tool}
   CustomSearchDelegate({
+    this.searchFieldDecoration,
     this.searchFieldLabel,
     this.searchFieldStyle,
     this.searchFieldDecorationTheme,
@@ -310,6 +311,7 @@ abstract class CustomSearchDelegate<T> {
   /// Only one of [searchFieldStyle] or [searchFieldDecorationTheme] can
   /// be non-null.
   final TextStyle? searchFieldStyle;
+  final InputDecoration? searchFieldDecoration;
 
   /// The [InputDecorationTheme] used to configure the search field's visuals.
   ///
@@ -525,6 +527,9 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
     final ThemeData theme = widget.delegate.appBarTheme(context);
     final String searchFieldLabel = widget.delegate.searchFieldLabel ??
         MaterialLocalizations.of(context).searchFieldLabel;
+    final InputDecoration searchFieldDecoration =
+        widget.delegate.searchFieldDecoration ??
+            InputDecoration(hintText: searchFieldLabel);
     Widget? body;
     switch (widget.delegate._currentBody) {
       case _SearchBody.suggestions:
@@ -570,38 +575,24 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
             title: Container(
               height: 40,
               child: TextField(
-                autofocus: true,
-                controller: widget.delegate._queryTextController,
-                focusNode: focusNode,
-                textInputAction: widget.delegate.textInputAction,
-                keyboardType: widget.delegate.keyboardType,
-                onSubmitted: (String _) {
-                  if (widget.delegate._queryTextController.text.isNotEmpty) {
-                    final searchProduct =
-                        Provider.of<Products>(context, listen: false)
-                            .searchProduct(
-                                widget.delegate._queryTextController.text);
-                    Navigator.of(context).pushReplacementNamed(
-                      ProductSearchScreen.routeName,
-                      arguments: searchProduct,
-                    );
-                  }
-                },
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide(
-                      width: 0,
-                      style: BorderStyle.none,
-                    ),
-                  ),
-                  prefixIcon: Icon(Icons.search),
-                  filled: true,
-                  fillColor: Color(0xFFF2F4F5),
-                  hintStyle: TextStyle(color: Colors.grey[600]),
-                  hintText: searchFieldLabel,
-                ),
-              ),
+                  autofocus: true,
+                  controller: widget.delegate._queryTextController,
+                  focusNode: focusNode,
+                  textInputAction: widget.delegate.textInputAction,
+                  keyboardType: widget.delegate.keyboardType,
+                  onSubmitted: (String _) {
+                    if (widget.delegate._queryTextController.text.isNotEmpty) {
+                      final searchProduct =
+                          Provider.of<Products>(context, listen: false)
+                              .searchProduct(
+                                  widget.delegate._queryTextController.text);
+                      Navigator.of(context).pushReplacementNamed(
+                        ProductSearchScreen.routeName,
+                        arguments: searchProduct,
+                      );
+                    }
+                  },
+                  decoration: searchFieldDecoration),
             ),
             actions: widget.delegate.buildActions(context),
             bottom: widget.delegate.buildBottom(context),
@@ -616,10 +607,24 @@ class _SearchPageState<T> extends State<_SearchPage<T>> {
   }
 }
 
-class DataSearch extends CustomSearchDelegate {
+class DataSearch extends CustomSearchDelegate<String> {
   DataSearch({
     required String hintText,
   }) : super(
+          searchFieldDecoration: InputDecoration(
+            border: UnderlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: BorderSide(
+                width: 0,
+                style: BorderStyle.none,
+              ),
+            ),
+            prefixIcon: Icon(Icons.search),
+            filled: true,
+            fillColor: Color(0xFFF2F4F5),
+            hintStyle: TextStyle(color: Colors.grey[600]),
+            hintText: hintText,
+          ),
           searchFieldLabel: hintText,
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.search,

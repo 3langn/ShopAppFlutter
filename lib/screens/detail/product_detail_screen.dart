@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/products.dart';
-import 'package:shop_app/widgets/badge.dart';
+import 'package:shop_app/screens/overview/components/badge.dart';
 
-import 'cart_screen.dart';
+import '../cart/cart_screen.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product-detail';
@@ -18,28 +18,6 @@ class ProductDetailScreen extends StatelessWidget {
       listen: false,
     ).findById(productId);
     return Scaffold(
-      // appBar: AppBar(
-      //   actions: [
-      //     Consumer<Cart>(
-      //       builder: (_, cart, ch) {
-      //         return Badge(
-      //           child: ch,
-      //           value: cart.itemCount.toString(),
-      //         );
-      //       },
-      //       child: IconButton(
-      //         icon: Icon(Icons.shopping_cart),
-      //         onPressed: () {
-      //           Navigator.of(context).pushNamed(CartScreen.routeName);
-      //         },
-      //       ),
-      //     ),
-      //     IconButton(
-      //       icon: Icon(Icons.notifications),
-      //       onPressed: () {},
-      //     )
-      //   ],
-      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
